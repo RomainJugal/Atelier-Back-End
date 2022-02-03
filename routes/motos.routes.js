@@ -29,16 +29,16 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    const {marque, modele, prix} = req.body;
+    const {marque, modele, prix, image} = req.body;
     connection.query(
-        'INSERT INTO motos (marque, modele, prix) VALUES (?, ?, ?)',
-        [marque, modele, prix],
+        'INSERT INTO motos (marque, modele, prix, image) VALUES (?, ?, ?, ?)',
+        [marque, modele, prix, image],
         (err, result) => {
             if (err) {
                 res.status(500).send('Error saving the moto');
             } else {
                 const id = result.insertId;
-                const createdMoto = { id, marque, modele, prix };
+                const createdMoto = { id, marque, modele, prix, image };
                 res.status(201).json(createdMoto);
             }
         }
@@ -56,7 +56,7 @@ router.put('/:id', (req, res) => {
       } else {
         if (result.affectedRows)
         {
-          const updatedMoto={id:req.params.id,marque:req.body.marque,modele:req.body.modele,prix:req.body.prix}
+          const updatedMoto={id:req.params.id,marque:req.body.marque,modele:req.body.modele,prix:req.body.prix,image:req.body.image}
           res.status(200).json(updatedMoto);
         } 
         else res.status(404).send('Moto not found.');
